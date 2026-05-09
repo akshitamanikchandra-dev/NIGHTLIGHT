@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  /* You can extend the theme here if needed, e.g., --color-brand: #... */
+}
+
+/* Custom base styles or utilities if absolutely necessary, but prefer utility classes */
+body {
+  margin: 0;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
