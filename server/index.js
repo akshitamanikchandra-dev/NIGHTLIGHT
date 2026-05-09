@@ -22,20 +22,8 @@ app.use(morgan('dev')); // Logger
 app.use(express.json()); // Body parser
 
 // CORS Configuration
-let clientUrl = process.env.CLIENT_URL || '';
-if (clientUrl.endsWith('/')) {
-    clientUrl = clientUrl.slice(0, -1);
-}
-const allowedOrigins = ['http://localhost:5173', clientUrl];
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true, // Allow all origins for simplicity in deployment
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 }));
