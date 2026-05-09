@@ -3,7 +3,7 @@ const OpenAI = require('openai');
 // Initialize OpenAI client
 // Note: In production, ensure OPENAI_API_KEY is key is set
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.OPENAI_API_KEY || 'dummy_key',
 });
 
 const handleChat = async (req, res, next) => {
