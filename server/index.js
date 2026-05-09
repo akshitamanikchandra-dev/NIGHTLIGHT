@@ -22,11 +22,15 @@ app.use(morgan('dev')); // Logger
 app.use(express.json()); // Body parser
 
 // CORS Configuration
-const allowedOrigins = ['http://localhost:5173', process.env.CLIENT_URL];
+let clientUrl = process.env.CLIENT_URL || '';
+if (clientUrl.endsWith('/')) {
+    clientUrl = clientUrl.slice(0, -1);
+}
+const allowedOrigins = ['http://localhost:5173', clientUrl];
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
