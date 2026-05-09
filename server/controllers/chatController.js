@@ -25,6 +25,41 @@ const handleChat = async (req, res, next) => {
     }
 
     try {
+        // Fallback simulated response if no API key is set
+        if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'your_openai_api_key_here') {
+            const getResponse = (personaId) => {
+                const responses = {
+                    empathetic: [
+                        "I can feel that this is important to you. I'm here.",
+                        "That sounds incredibly heavy. You're safe sharing more here.",
+                        "Take a breath. You're doing the best you can.",
+                        "I wish I could offer a hug, but I offer my full attention."
+                    ],
+                    logical: [
+                        "Analyzing the situation. Have you considered breaking this down into smaller steps?",
+                        "That is a valid observation. Let's look at the variables.",
+                        "Logic suggests that this feeling is temporary, though valid.",
+                        "Effective coping strategy detected. Proceed."
+                    ],
+                    creative: [
+                        "Imagine your worry as a cloud passing through a vast sky.",
+                        "That reminds me of a storm... chaotic but necessary for growth.",
+                        "Let's paint a new perspective on this.",
+                        "What color is this emotion for you right now?"
+                    ]
+                };
+                const pool = responses[personaId] || responses.empathetic;
+                return pool[Math.floor(Math.random() * pool.length)];
+            };
+
+            // Simulate slight delay for effect
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            return res.json({
+                response: getResponse(persona)
+            });
+        }
+
         const completion = await openai.chat.completions.create({
             messages: [
                 { role: "system", content: systemPrompt },
